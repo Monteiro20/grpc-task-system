@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+// Contrato gRPC partilhado entre o servidor e o cliente.
+// Ambos os projetos compilam este mesmo ficheiro (ver os .csproj).
+
+option csharp_namespace = "gRPC_server";
+
+package greet;
+
+service Greeter {
+  // Comandos do menu (ver/concluir tarefas, subscrições, logout, ...)
+  rpc SayHello (HelloRequest) returns (HelloReply);
+  // Autenticação: devolve se o utilizador é admin e o estado das subscrições
+  rpc SayLogin (loginRequest) returns (loginReply);
+  // Admin: cria uma nova tarefa e notifica um cliente subscrito via RabbitMQ
+  rpc addTask (TaskRequest) returns (TaskReply);
+  // Cliente: lista as tarefas livres ("7") ou atribui a tarefa com o ID indicado
+  rpc choseTask (ChoseTaskRequest) returns (choseTaskReply);
+}
+
+message HelloRequest {
+  string message = 1;
+  string client = 2;
+}
+
+message HelloReply {
+  string message = 1;
+  string client = 2;
+}
+
+message loginRequest {
+  string client = 1;
+  string passwordLogin = 2;
+}
+
+message loginReply {
+  bool login = 1;
+  bool admin = 2;
+  string Message = 3;
+  string subscriptins = 4;
+}
+
+message TaskRequest {
+  string message = 1;
+  string client = 2;
+  string task = 3;
+}
+
+message TaskReply {
+  string message = 1;
+  string client = 2;
+}
+
+message ChoseTaskRequest {
+  string message = 1;
+  string client = 2;
+}
+
+message choseTaskReply {
+  string message = 1;
+  string client = 2;
+}

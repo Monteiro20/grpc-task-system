@@ -1,0 +1,16 @@
+# Infraestrutura para desenvolvimento local: SQL Server + RabbitMQ.
+# Credenciais apenas para desenvolvimento; não usar em produção.
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Dev_Passw0rd!"
+    ports:
+      - "1433:1433"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"    # AMQP
+      - "15672:15672"  # painel de gestão: http://localhost:15672 (guest/guest)
